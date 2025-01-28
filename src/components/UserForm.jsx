@@ -123,17 +123,18 @@ const UserForm = ({ visible, onCancel, onSubmit, initialValues, teams, isMobile 
         </Form.Item>
 
         <Form.Item
-          name="expiration"
-          label="Expiration"
-          rules={[{ required: true, message: 'Please select expiration date!' }]}
-          initialValue={dayjs().add(1000, 'days')}
-        >
-          <DatePicker 
-            showTime 
-            style={{ width: '100%' }}
-            disabledDate={(current) => current && current < dayjs().endOf('day')}
-            format="YYYY-MM-DD HH:mm:ss"
-          />
+            name="expiration"
+            label="Expiration Date"
+            rules={[{ required: true, message: 'Please select expiration date!' }]}
+            initialValue={dayjs().add(1000, 'days')} // Default to 1000 days
+          >
+            <DatePicker 
+              showTime 
+              style={{ width: '100%' }}
+              disabledDate={(current) => {
+                return current && current < dayjs().endOf('day');
+              }}
+            />
         </Form.Item>
 
         <Form.Item
