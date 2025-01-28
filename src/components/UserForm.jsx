@@ -103,7 +103,7 @@ const UserForm = ({ visible, onCancel, onSubmit, initialValues, teams, isMobile 
         >
           <Select>
             <Select.Option value="admin">Admin</Select.Option>
-            <Select.Option value="user">User</Select.Option>
+            <Select.Option value="superadmin">Superadmin</Select.Option>
           </Select>
         </Form.Item>
 

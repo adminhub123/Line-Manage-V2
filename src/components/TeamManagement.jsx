@@ -57,12 +57,12 @@ const TeamManagement = ({ teams, onAddTeam, onDeleteTeam, isMobile }) => {
                 onConfirm={() => onDeleteTeam(team)}
                 okText="Yes"
                 cancelText="No"
-                disabled={['admin', 'user'].includes(team)}
+                disabled={['admin', 'superadmin'].includes(team)}
               >
                 <Button 
                   danger 
                   icon={<DeleteOutlined />}
-                  disabled={['admin', 'user'].includes(team)}
+                  disabled={['admin', 'superadmin'].includes(team)}
                   size={isMobile ? 'small' : 'middle'}
                 >
                   {!isMobile && 'Delete'}

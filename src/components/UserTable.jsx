@@ -32,7 +32,7 @@ const UserTable = ({ users, onEdit, onDelete, loading, isMobile, isTablet }) => 
         width: isMobile ? 80 : 100,
         filters: [
           { text: 'Admin', value: 'admin' },
-          { text: 'User', value: 'user' },
+          { text: 'Superadmin', value: 'superadmin' },
         ],
         onFilter: (value, record) => record.role === value,
       },
