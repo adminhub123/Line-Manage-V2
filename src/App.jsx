@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Login from './pages/Login';
 import UserManagement from './pages/UserManagement';
@@ -11,20 +11,17 @@ const PrivateRoute = ({ children }) => {
 const App = () => {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route 
-            path="/users" 
-            element={
-              <PrivateRoute>
-                <UserManagement />
-              </PrivateRoute>
-            } 
-          />
+          <Route path="/users" element={
+            <PrivateRoute>
+              <UserManagement />
+            </PrivateRoute>
+          } />
           <Route path="/" element={<Navigate to="/users" />} />
         </Routes>
-      </BrowserRouter>
+      </Router>
     </AuthProvider>
   );
 };
