@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://line-api-production.up.railway.app/api'
-  : 'https://line-api-production.up.railway.app/api';
+  ? 'https://line-data.onrender.com/api'
+  : 'https://line-data.onrender.com/api';
 
 const api = axios.create({
   baseURL: BASE_URL,
