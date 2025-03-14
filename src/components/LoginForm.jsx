@@ -53,7 +53,7 @@ const LoginForm = () => {
       style={cardStyles}
       bodyStyle={{ padding: isMobile ? '16px' : '24px' }}
     >
-      <h1 style={titleStyles}>User Management Login</h1>
+      <h1 style={titleStyles}>User Management Login V2.0</h1>
       
       <Form
         name="login"

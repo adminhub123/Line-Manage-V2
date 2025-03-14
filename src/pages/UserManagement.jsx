@@ -145,7 +145,7 @@ const UserManagement = () => {
               style={{ fontSize: '20px' }}
             />
             <div style={{ flex: 1, textAlign: 'center' }}>
-              <h3 style={{ margin: 0 }}>User Management</h3>
+              <h3 style={{ margin: 0 }}>User Management V2.0</h3>
             </div>
             <Button 
               icon={<LogoutOutlined />} 
@@ -155,7 +155,7 @@ const UserManagement = () => {
           </>
         ) : (
           <>
-            <h2 style={{ margin: 0 }}>User Management</h2>
+            <h2 style={{ margin: 0 }}>User Management V2.0</h2>
             <div>
               <span style={{ marginRight: '16px' }}>
                 Welcome, {user?.username}
