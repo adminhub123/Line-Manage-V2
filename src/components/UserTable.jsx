@@ -1,13 +1,21 @@
 // src/components/UserTable.jsx
-import { Table, Button, Space, Popconfirm, Input, Tooltip, Typography } from 'antd';
-import { DeleteOutlined, EditOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { Table, Button, Space, Popconfirm, Input, Tooltip, Typography, Modal, Tag } from 'antd';
+import { DeleteOutlined, EditOutlined, InfoCircleOutlined, MessageOutlined } from '@ant-design/icons';
 import { useState } from 'react';
+import MessageSyncHistory from './MessageSyncHistory';
 
 const { Search } = Input;
 const { Text } = Typography;
 
 const UserTable = ({ users, onEdit, onDelete, loading, isMobile, isTablet }) => {
   const [searchText, setSearchText] = useState('');
+  const [messageSyncVisible, setMessageSyncVisible] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const handleShowMessageSync = (user) => {
+    setSelectedUser(user);
+    setMessageSyncVisible(true);
+  };
 
   const getColumns = () => {
     const baseColumns = [
@@ -17,9 +25,18 @@ const UserTable = ({ users, onEdit, onDelete, loading, isMobile, isTablet }) => 
         key: 'username',
         width: isMobile ? 120 : 150,
         sorter: (a, b) => a.username.localeCompare(b.username),
-        render: (text) => (
-          <Tooltip title={text}>
-            <Text ellipsis style={{ maxWidth: isMobile ? 100 : 130 }}>
+        render: (text, record) => (
+          <Tooltip title="Click to view message data">
+            <Text 
+              ellipsis 
+              style={{ 
+                maxWidth: isMobile ? 100 : 130, 
+                cursor: 'pointer',
+                color: '#1890ff',
+                textDecoration: 'underline' 
+              }}
+              onClick={() => handleShowMessageSync(record)}
+            >
               {text}
             </Text>
           </Tooltip>
@@ -67,11 +84,26 @@ const UserTable = ({ users, onEdit, onDelete, loading, isMobile, isTablet }) => 
         width: isMobile ? 150 : 180,
         render: (date) => {
           const formattedDate = date ? new Date(date).toLocaleString() : 'Never';
+          const isExpired = date && new Date(date) < new Date();
+          
           return (
             <Tooltip title={formattedDate}>
-              <Text ellipsis style={{ maxWidth: isMobile ? 130 : 160 }}>
-                {formattedDate}
-              </Text>
+              <Space>
+                <Text 
+                  ellipsis 
+                  style={{ 
+                    maxWidth: isMobile ? 130 : 160,
+                    color: isExpired ? '#f5222d' : 'inherit'
+                  }}
+                >
+                  {formattedDate}
+                </Text>
+                {isExpired && (
+                  <Tag color="error" style={{ marginLeft: 0 }}>
+                    Expired
+                  </Tag>
+                )}
+              </Space>
             </Tooltip>
           );
         },
@@ -97,9 +129,19 @@ const UserTable = ({ users, onEdit, onDelete, loading, isMobile, isTablet }) => 
       {
         title: 'Actions',
         key: 'actions',
-        width: isMobile ? 100 : 150,
+        width: isMobile ? 150 : 220,
         render: (_, record) => (
           <Space size="small">
+            <Tooltip title="View messages">
+              <Button 
+                icon={<MessageOutlined />} 
+                onClick={() => handleShowMessageSync(record)}
+                size={isMobile ? 'small' : 'middle'}
+                type="default"
+              >
+                {!isMobile && 'Messages'}
+              </Button>
+            </Tooltip>
             <Tooltip title="Edit user">
               <Button 
                 icon={<EditOutlined />} 
@@ -190,6 +232,26 @@ const UserTable = ({ users, onEdit, onDelete, loading, isMobile, isTablet }) => 
           overflowX: 'auto',
         }}
       />
+
+      {/* Modal for MessageSyncHistory */}
+      <Modal
+        open={messageSyncVisible}
+        onCancel={() => setMessageSyncVisible(false)}
+        title={null}
+        footer={null}
+        width={isMobile ? '100%' : '80%'}
+        style={{ top: 20 }}
+        bodyStyle={{ padding: 0 }}
+        destroyOnClose
+      >
+        {selectedUser && (
+          <MessageSyncHistory
+            username={selectedUser.username}
+            team={selectedUser.team}
+            onClose={() => setMessageSyncVisible(false)}
+          />
+        )}
+      </Modal>
     </div>
   );
 };
